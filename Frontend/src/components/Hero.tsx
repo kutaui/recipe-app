@@ -1,6 +1,6 @@
 import {Box, styled} from "@mui/system";
-import Recipes from "../../public/recipes.png";
-import Background from "../../public/blob-scene-haikei.svg"
+import Recipes from "/recipes.png";
+import Background from "/blob-scene-haikei.svg"
 import {Typography} from "@mui/material";
 
 const HeroImage = styled("img")({
