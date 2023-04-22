@@ -13,19 +13,19 @@ const Icon = styled("img")({
 const categories = [
     {
         name: "breakfast",
-        icon: <EggAltIcon/>,
+        icon: <EggAltIcon sx={{backgroundColor:"white",borderRadius:"50%",width:"30px",height:"30px"}}/>,
     }, {
-        name: "pizza",
-        icon: <LocalPizzaIcon/>,
+        name: "fastfood",
+        icon: <LocalPizzaIcon sx={{backgroundColor:"white",borderRadius:"50%",width:"30px",height:"30px"}}/>,
     }, {
         name: "dessert",
-        icon: <CakeIcon/>,
+        icon: <CakeIcon sx={{backgroundColor:"white",borderRadius:"50%",width:"30px",height:"30px"}}/>,
     }, {
         name: "drink",
-        icon: <LocalBarIcon/>,
+        icon: <LocalBarIcon sx={{backgroundColor:"white",borderRadius:"50%",width:"30px",height:"30px"}}/>,
     }, {
         name: "salad",
-        icon: <RiceBowlIcon/>,
+        icon: <RiceBowlIcon sx={{backgroundColor:"white",borderRadius:"50%",width:"30px",height:"30px"}}/>,
     }]
 
 
