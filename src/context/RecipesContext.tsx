@@ -11,7 +11,6 @@ export function RecipesContextProvider({children}) {
             const {data} = await axios.get(
                 `https://recipesapi.kutaybekleric.com/recipes`
             );
-            console.log("context inside",data);
             setRecipes(data);
         }
 

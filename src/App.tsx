@@ -5,7 +5,7 @@ import {Header} from "./components/Header";
 import {SideBar} from "./components/SideBar";
 import {Recipes} from "./components/Recipes";
 import {Box} from "@mui/system";
-import {RecipesContextProvider} from "./RecipesContext";
+import {RecipesContextProvider} from "./context/RecipesContext";
 
 function App() {
     return <Main>

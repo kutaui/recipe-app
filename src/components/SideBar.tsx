@@ -34,11 +34,11 @@ export const SideBar = () => {
         <Box sx={{
             bgcolor: "#f6f6f6",
             width: "30%",
-            height: "60vh",
+            height: "100vh",
             display: "flex",
             alignItems: "center",
         }}>
-            <Box sx={{marginLeft: "175px",}}>
+            <Box sx={{marginLeft: "175px",marginTop:"-370px"}}>
                 <Typography variant="h2" marginLeft="-5px" marginTop="-80px" marginBottom="30px"
                             fontFamily="Arvo">Recipes</Typography>
 

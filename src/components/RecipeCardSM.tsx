@@ -1,4 +1,4 @@
-import {Card, CardContent, CardMedia, Typography} from "@mui/material";
+import {Card, CardContent, CardMedia, Chip, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import { ReactElement, JSXElementConstructor, ReactFragment, ReactPortal } from "react";
 
@@ -11,9 +11,10 @@ export const RecipeCardSM = (props: { image: string ; name: string ; tags: strin
         />
         <Box sx={{display: "flex", flexDirection: "column"}}>
             <CardContent sx={{height: "100%", width: 200, position: "relative"}}>
-                <Typography gutterBottom sx={{fontSize:"16px"}}>{props.name}</Typography>
+                <Typography gutterBottom sx={{fontSize:"16px",fontWeight:"600"}}>{props.name}</Typography>
 
-                <Typography sx={{display: "block", position: "absolute",bottom:"20px",fontSize:"12px"}}>Tags:{props.tags}</Typography>
+                <Typography sx={{display: "block", position: "absolute",bottom:"20px",fontSize:"12px"}}>Tags:{props.tags.map((tag) => (
+                    <span> <b>{tag}</b>, </span>))} </Typography>
             </CardContent>
         </Box>
     </Card>
