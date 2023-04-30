@@ -14,7 +14,7 @@ export const RecipeCardSM = (props: { image: string ; name: string ; tags: strin
                 <Typography gutterBottom sx={{fontSize:"16px",fontWeight:"600"}}>{props.name}</Typography>
 
                 <Typography sx={{display: "block", position: "absolute",bottom:"20px",fontSize:"12px"}}>Tags:{props.tags.map((tag) => (
-                    <span> <b>{tag}</b>, </span>))} </Typography>
+                    <span key={tag} > <b>{tag}</b>, </span>))} </Typography>
             </CardContent>
         </Box>
     </Card>

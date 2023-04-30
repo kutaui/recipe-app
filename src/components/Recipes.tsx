@@ -5,12 +5,22 @@ import {InputAdornment} from "@mui/material";
 import {RecipeCard} from "./RecipeCard";
 import {RecipeCardSM} from "./RecipeCardSM";
 import {useAPI} from "../context/RecipesContext";
-import {Key} from "react";
+import {Key, useState} from "react";
 
 
 export const Recipes = () => {
+    const [recipeQuery, setRecipeQuery] = useState("")
+    const [selectSort, setSelectSort] = useState("")
     // @ts-ignore
     const {recipes} = useAPI()
+    const handleRecipeSearch = (e) => {
+        setRecipeQuery(e.target.value)
+        console.log(recipeQuery)
+    }
+    const handleSortSelect = (e) => {
+        setSelectSort(e.target.value)
+        console.log(selectSort)
+    }
     return <>
         <Box sx={{
             bgcolor: "#f6f6f6",
@@ -21,6 +31,7 @@ export const Recipes = () => {
             <Box>
                 <Box display="flex" sx={{justifyContent: "space-around"}}>
                     <OutlinedInput
+                        onChange={handleRecipeSearch}
                         sx={{
                             width: "555px",
                             borderRadius: "100px",
@@ -39,10 +50,12 @@ export const Recipes = () => {
                             id="sort-recipes-select"
                             label="Sort by:"
                             sx={{borderRadius: "100px", height: "45px"}}
+                            onChange={handleSortSelect}
+                            value={selectSort}
                         >
-                            <MenuItem value={10}> <b>Newest</b></MenuItem>
-                            <MenuItem value={20}> <b>Popularity</b></MenuItem>
-                            <MenuItem value={30}> <b>Oldest</b></MenuItem>
+                            <MenuItem value="New"> <b>Newest</b></MenuItem>
+                            <MenuItem value="Popular"> <b>Popularity</b></MenuItem>
+                            <MenuItem value="Old"> <b>Oldest</b></MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -72,7 +85,9 @@ export const Recipes = () => {
                     })}
                 </Box>
             </Box>
-            <Pagination count={2}/>
+            <Box sx={{mr: "auto", ml: "auto", width: "160px", mt: "30px"}}>
+                <Pagination count={2}/>
+            </Box>
         </Box>
     </>
 }
