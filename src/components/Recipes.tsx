@@ -5,7 +5,7 @@ import {InputAdornment} from "@mui/material";
 import {RecipeCard} from "./RecipeCard";
 import {RecipeCardSM} from "./RecipeCardSM";
 import {useAPI} from "../context/RecipesContext";
-import {Key, useState} from "react";
+import {Key, SetStateAction, useState} from "react";
 
 
 export const Recipes = () => {
@@ -13,11 +13,11 @@ export const Recipes = () => {
     const [selectSort, setSelectSort] = useState("")
     // @ts-ignore
     const {recipes} = useAPI()
-    const handleRecipeSearch = (e) => {
+    const handleRecipeSearch = (e: { target: { value: string; }; }) => {
         setRecipeQuery(e.target.value)
         console.log(recipeQuery)
     }
-    const handleSortSelect = (e) => {
+    const handleSortSelect = (e: { target: { value: string; }; }) => {
         setSelectSort(e.target.value)
         console.log(selectSort)
     }
