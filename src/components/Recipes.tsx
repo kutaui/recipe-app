@@ -6,6 +6,7 @@ import {RecipeCard} from "./RecipeCard";
 import {RecipeCardSM} from "./RecipeCardSM";
 import {useAPI} from "../context/RecipesContext";
 import {Key, SetStateAction, useState} from "react";
+import {SideBar} from "./SideBar";
 
 
 export const Recipes = () => {
@@ -18,7 +19,6 @@ export const Recipes = () => {
     }
     const handleSortSelect = (e: { target: { value: string; }; }) => {
         setSelectSort(e.target.value)
-        console.log(selectSort)
     }
 
     let filteredRecipes = recipes.filter((recipe: {
@@ -34,73 +34,83 @@ export const Recipes = () => {
     return <>
         <Box sx={{
             bgcolor: "#f6f6f6",
-            width: "70%",
-            height: "100vh",
+            height: "82.5vh",
+            width: "79.2vw",
         }}>
+            <Box width="100%" display="flex">
+                <SideBar/>
+                <Box ml="100px">
+                    <Box width="1150px" display="flex" sx={{justifyContent: "space-around",}}>
+                        <OutlinedInput
+                            onChange={handleRecipeSearch}
+                            sx={{
+                                width: "555px",
+                                borderRadius: "100px",
+                                marginTop: "53px",
+                                height: "45px",
+                                ml: "-15px",
+                            }}
+                            placeholder="Search for recipes and more..."
+                            startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
+                        />
 
-            <Box>
-                <Box display="flex" sx={{justifyContent: "space-around"}}>
-                    <OutlinedInput
-                        onChange={handleRecipeSearch}
-                        sx={{
-                            width: "555px",
-                            borderRadius: "100px",
-                            marginTop: "53px",
-                            height: "45px",
-                            marginLeft: "-111px",
-                        }}
-                        placeholder="Search for recipes and more..."
-                        startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
-                    />
-
-                    <FormControl sx={{width: "150px", marginTop: "53px"}}>
-                        <InputLabel id="sort-recipes-label">Sort by:</InputLabel>
-                        <Select
-                            labelId="sort-recipes-label"
-                            id="sort-recipes-select"
-                            label="Sort by:"
-                            sx={{borderRadius: "100px", height: "45px"}}
-                            onChange={handleSortSelect}
-                            value={selectSort}
-                        >
-                            <MenuItem value="New"> <b>Newest</b></MenuItem>
-                            <MenuItem value="Old"> <b>Oldest</b></MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-                <Box mt="50px" display="flex" flexWrap="wrap">
-                    {filteredRecipes.map((recipe: {
-                        image: string;
-                        name: string;
-                        description: string;
-                        tags: string[];
-                    }, index: number) => {
-                        if (index % 3 === 0) {
-                            return (
-                                <Box key={index} display="flex">
-                                    <RecipeCard image={recipe.image} name={recipe.name} description={recipe.description}
-                                                tags={recipe.tags}/>
-                                    <Box display="flex" flexDirection="column">
-                                        {filteredRecipes[index + 1] && (
-                                            <RecipeCardSM image={filteredRecipes[index + 1].image}
-                                                          name={filteredRecipes[index + 1].name}
-                                                          tags={filteredRecipes[index + 1].tags}/>
-                                        )}
-                                        {filteredRecipes[index + 2] && (
-                                            <RecipeCardSM image={filteredRecipes[index + 2].image}
-                                                          name={filteredRecipes[index + 2].name}
-                                                          tags={filteredRecipes[index + 2].tags}/>
-                                        )}
+                        <FormControl sx={{width: "150px", marginTop: "53px"}}>
+                            <InputLabel id="sort-recipes-label" sx={{
+                                marginTop: "-5px",
+                                transition: "margin-top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+                                ...(selectSort && {
+                                    marginTop: "0px",
+                                }),
+                            }}
+                                        shrink={!!selectSort}>Sort by:</InputLabel>
+                            <Select
+                                labelId="sort-recipes-label"
+                                id="sort-recipes-select"
+                                label="Sort by:"
+                                sx={{borderRadius: "100px", height: "45px"}}
+                                onChange={handleSortSelect}
+                                value={selectSort}
+                            >
+                                <MenuItem value="New"> <b>Newest</b></MenuItem>
+                                <MenuItem value="Old"> <b>Oldest</b></MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box ml="100px" height="500px" mt="50px" display="flex" flexWrap="wrap">
+                        {filteredRecipes.map((recipe: {
+                            image: string;
+                            name: string;
+                            description: string;
+                            tags: string[];
+                        }, index: number) => {
+                            if (index % 3 === 0) {
+                                return (
+                                    <Box key={index} display="flex">
+                                        <RecipeCard image={recipe.image} name={recipe.name}
+                                                    description={recipe.description}
+                                                    tags={recipe.tags}/>
+                                        <Box display="flex" flexDirection="column">
+                                            {filteredRecipes[index + 1] && (
+                                                <RecipeCardSM image={filteredRecipes[index + 1].image}
+                                                              name={filteredRecipes[index + 1].name}
+                                                              tags={filteredRecipes[index + 1].tags}/>
+                                            )}
+                                            {filteredRecipes[index + 2] && (
+                                                <RecipeCardSM image={filteredRecipes[index + 2].image}
+                                                              name={filteredRecipes[index + 2].name}
+                                                              tags={filteredRecipes[index + 2].tags}/>
+                                            )}
+                                        </Box>
                                     </Box>
-                                </Box>
-                            );
-                        } else {
-                            return null;
-                        }
-                    })}
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
+                    </Box>
                 </Box>
             </Box>
-            <Box sx={{mr: "auto", ml: "auto", width: "160px", mt: "30px"}}>
+            <Box sx={{mr: "auto", ml: "auto", width: "160px", mt: "-30px", pb: "30px"}}>
                 <Pagination count={2}/>
             </Box>
         </Box>

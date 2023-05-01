@@ -2,23 +2,20 @@ import {Box} from "@mui/system";
 import {Link, Typography} from "@mui/material";
 
 export const Header = () => {
+    let boxStyle = {
+        maxWidth: "100%",
+        minWidth:"1350px",
+        height: "10vh",
+        marginTop: "-1.4rem",
+        display: "flex",
+        alignItems: "center",
+        gap: "2rem",
+        justifyContent: "space-evenly",
+        fontSize: "1.2rem",
+    }
     return <>
-        <Box sx={{
-
-            opacity: "1",
-            width: "100%",
-            height: "10vh",
-            marginTop: "-1.4rem",
-
-            display: "flex",
-            alignItems: "center",
-            gap: "2rem",
-            justifyContent: "space-evenly",
-            fontSize: "1.2rem"
-
-        }}>
-
-            <Typography  marginLeft="5rem" color="black" variant="h5" fontFamily="Rubik Wet Paint">RecipeApp</Typography>
+        <Box sx={boxStyle}>
+            <Typography marginLeft="5rem" color="black" variant="h5" fontFamily="Rubik Wet Paint">RecipeApp</Typography>
             <Link sx={{
                 color: "black",
                 textDecoration: "none",

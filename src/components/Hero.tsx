@@ -14,16 +14,21 @@ export const Hero = () => {
     return <>
         <Box sx={{
             backgroundImage: `url(${Background})`,
-            opacity: "1",
             width: "100%",
-            height: "61vh",
+            minWidth:"79vw",
+            height: "600px",
             marginTop: "-6rem",
             display: "flex",
             alignItems: "center",
             gap: "2rem",
+
         }}>
             <Box sx={{
                 marginLeft:"11rem",
+                "@media (max-width: 1440px)": {
+                    marginLeft:"10rem",
+
+                },
             }}>
                 <Typography variant="h1" fontFamily="Arvo" fontWeight="800" width="5px">TASTE</Typography>
                 <Typography variant="h1" fontFamily="Arvo" fontWeight="800" marginLeft="10rem" width="5px">THE</Typography>

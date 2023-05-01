@@ -9,15 +9,14 @@ import {RecipesContextProvider} from "./context/RecipesContext";
 
 function App() {
     return <Main>
-        <div>
+        <Box>
             <Header/>
             <Hero/>
-        </div>
-        <RecipesContextProvider>
-        <Box sx={{display:"flex"}}>
-            <SideBar/>
-            <Recipes/>
         </Box>
+        <RecipesContextProvider>
+            <Box>
+                <Recipes/>
+            </Box>
         </RecipesContextProvider>
     </Main>
 
