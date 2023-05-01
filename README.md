@@ -16,3 +16,4 @@ This is the API that I used. It is open-source and free to use.
 
 ## To Do
 * Add more responsiveness
+* Add dynamic routing for individual recipes

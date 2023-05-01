@@ -15,12 +15,22 @@ export const Recipes = () => {
     const {recipes} = useAPI()
     const handleRecipeSearch = (e: { target: { value: string; }; }) => {
         setRecipeQuery(e.target.value)
-        console.log(recipeQuery)
     }
     const handleSortSelect = (e: { target: { value: string; }; }) => {
         setSelectSort(e.target.value)
         console.log(selectSort)
     }
+
+    let filteredRecipes = recipes.filter((recipe: {
+        name: string;
+    }) => recipe.name.toLowerCase().includes(recipeQuery.toLowerCase()))
+
+    if (selectSort === "New") {
+        filteredRecipes.sort((a: { id: number }, b: { id: number }) => b.id - a.id);
+    } else if (selectSort === "Old") {
+        filteredRecipes.sort((a: { id: number }, b: { id: number }) => a.id - b.id);
+    }
+
     return <>
         <Box sx={{
             bgcolor: "#f6f6f6",
@@ -54,13 +64,12 @@ export const Recipes = () => {
                             value={selectSort}
                         >
                             <MenuItem value="New"> <b>Newest</b></MenuItem>
-                            <MenuItem value="Popular"> <b>Popularity</b></MenuItem>
                             <MenuItem value="Old"> <b>Oldest</b></MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
                 <Box mt="50px" display="flex" flexWrap="wrap">
-                    {recipes.map((recipe: {
+                    {filteredRecipes.map((recipe: {
                         image: string;
                         name: string;
                         description: string;
@@ -72,10 +81,16 @@ export const Recipes = () => {
                                     <RecipeCard image={recipe.image} name={recipe.name} description={recipe.description}
                                                 tags={recipe.tags}/>
                                     <Box display="flex" flexDirection="column">
-                                        <RecipeCardSM image={recipes[index + 1].image} name={recipes[index + 1].name}
-                                                      tags={recipes[index + 1].tags}/>
-                                        <RecipeCardSM image={recipes[index + 2].image} name={recipes[index + 2].name}
-                                                      tags={recipes[index + 2].tags}/>
+                                        {filteredRecipes[index + 1] && (
+                                            <RecipeCardSM image={filteredRecipes[index + 1].image}
+                                                          name={filteredRecipes[index + 1].name}
+                                                          tags={filteredRecipes[index + 1].tags}/>
+                                        )}
+                                        {filteredRecipes[index + 2] && (
+                                            <RecipeCardSM image={filteredRecipes[index + 2].image}
+                                                          name={filteredRecipes[index + 2].name}
+                                                          tags={filteredRecipes[index + 2].tags}/>
+                                        )}
                                     </Box>
                                 </Box>
                             );
