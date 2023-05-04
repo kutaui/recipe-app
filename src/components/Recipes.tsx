@@ -60,13 +60,17 @@ export const Recipes = () => {
         <Box sx={{
             bgcolor: "#f6f6f6",
             height: "82.5vh",
-            maxWidth: "95rem",
-            minWidth: "70rem",
         }}>
-            <Box width="100%" display="flex">
+            <Box sx={{
+                maxWidth: "95rem",
+                minWidth: "70rem",
+            }} display="flex">
                 <SideBar/>
                 <Box ml="100px">
-                    <Box width="1150px" display="flex" sx={{justifyContent: "space-around",}}>
+                    <Box display="flex" sx={{
+                        justifyContent: "space-around", maxWidth: "95rem",
+                        minWidth: "70rem",
+                    }}>
                         <OutlinedInput
                             onChange={handleRecipeSearch}
                             sx={{
@@ -75,12 +79,15 @@ export const Recipes = () => {
                                 marginTop: "53px",
                                 height: "45px",
                                 ml: "-15px",
+                                "@media (max-width: 1450px)": {
+                                    width: "440px",
+                                },
                             }}
                             placeholder="Search for recipes and more..."
                             startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
                         />
 
-                        <FormControl sx={{width: "150px", marginTop: "53px"}}>
+                        <FormControl sx={{minWidth: "150px", marginTop: "53px"}}>
                             <InputLabel id="sort-recipes-label" sx={{
                                 marginTop: "-5px",
                                 transition: "margin-top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
