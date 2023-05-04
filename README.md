@@ -8,7 +8,8 @@ Project is created with:
 * Context API
 * React Router
 * Material UI
-* 
+
+
 ## Functionalities
 * Search for recipes
 * Filter recipes by category
@@ -17,7 +18,7 @@ Project is created with:
 * Responsive design
 
 ## Recipe API
-This is the API that I used. It is open-source and free to use. 
+This is the API that I used. It is open-source and free to use.
 
 [GitHub Repo](https://github.com/kutaui/recipes-api)
 
