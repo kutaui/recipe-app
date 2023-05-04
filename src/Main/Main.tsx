@@ -10,13 +10,10 @@ export function Main(props: any) {
         <Box>
             <Hero/>
         </Box>
-        <RecipesContextProvider>
-            <Box>
-                <Recipes/>
-            </Box>
-        </RecipesContextProvider>
+        <Box>
+            <Recipes/>
+        </Box>
     </Container>
-
 
 
 }
