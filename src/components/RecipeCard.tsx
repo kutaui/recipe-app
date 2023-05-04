@@ -4,15 +4,15 @@ import {ReactElement, JSXElementConstructor, ReactFragment, ReactPortal} from "r
 
 export const RecipeCard = (props: { image: string; name: string; description: string; tags: string[] }) => {
     return <Card sx={{
-        width: 555, display: "flex", height: "241px", borderRadius: 5,
+        minWidth:"300px",maxWidth:"555px", display: "flex", height: "241px", borderRadius: 5,
     }}>
         <CardMedia
-            sx={{width: 225}}
+            sx={{maxWidth: "225px",minWidth:"150px"}}
             image={props.image}
             title={props.name}
         />
         <Box sx={{display: "flex", flexDirection: "column"}}>
-            <CardContent sx={{height: "100%", width: 300, position: "relative"}}>
+            <CardContent sx={{width:"90%",height:"100%",  position: "relative"}}>
                 <Typography gutterBottom variant="h5" fontWeight="600">{props.name}</Typography>
                 <Typography variant="body1">{props.description} </Typography>
 

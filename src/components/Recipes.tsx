@@ -1,5 +1,5 @@
 import {Box} from "@mui/system";
-import {FormControl, InputLabel,MenuItem, OutlinedInput, Pagination, Select} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, OutlinedInput, Pagination, Select} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {InputAdornment} from "@mui/material";
 import {RecipeCard} from "./RecipeCard";
@@ -7,7 +7,7 @@ import {RecipeCardSM} from "./RecipeCardSM";
 import {useAPI} from "../context/RecipesContext";
 import React, {Key, SetStateAction, useState} from "react";
 import {SideBar} from "./SideBar";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 export const Recipes = () => {
@@ -60,7 +60,8 @@ export const Recipes = () => {
         <Box sx={{
             bgcolor: "#f6f6f6",
             height: "82.5vh",
-            width: "79.2vw",
+            maxWidth: "95rem",
+            minWidth: "70rem",
         }}>
             <Box width="100%" display="flex">
                 <SideBar/>
@@ -112,7 +113,7 @@ export const Recipes = () => {
                             if (index % 3 === 0) {
                                 return (
                                     <Box key={index} display="flex">
-                                        <Link style={{textDecoration:"none"}}  to={`${recipe.id}`}>
+                                        <Link style={{textDecoration: "none"}} to={`${recipe.id}`}>
                                             <RecipeCard image={recipe.image} name={recipe.name}
                                                         description={recipe.description}
                                                         tags={recipe.tags}/>
