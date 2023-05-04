@@ -37,12 +37,16 @@ export const SideBar = () => {
             height: "760px",
             display: "flex",
             alignItems: "center",
-            position:"relative"
+            position:"relative",
+
         }}>
             <Box sx={{
                 position: "absolute",
                 top:"115px",
                 left:"130px",
+                "@media (max-width: 1450px)": {
+                    ml: "-50px",
+                },
             }}>
                 <Typography variant="h2" marginLeft="-5px" marginTop="-80px" marginBottom="30px"
                             fontFamily="Arvo">Recipes</Typography>

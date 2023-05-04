@@ -5,11 +5,36 @@ import {InputAdornment} from "@mui/material";
 import {RecipeCard} from "./RecipeCard";
 import {RecipeCardSM} from "./RecipeCardSM";
 import {useAPI} from "../context/RecipesContext";
-import {Key, SetStateAction, useState} from "react";
+import React, {Key, SetStateAction, useState} from "react";
 import {SideBar} from "./SideBar";
+import {Link} from "react-router-dom";
 
 
 export const Recipes = () => {
+    // @ts-ignore
+    function Link(props: LinkProps): React.ReactElement;
+
+    interface LinkProps
+        extends Omit<
+            React.AnchorHTMLAttributes<HTMLAnchorElement>,
+            "href"
+        > {
+        replace?: boolean;
+        state?: any;
+        to: To;
+        reloadDocument?: boolean;
+        preventScrollReset?: boolean;
+        relative?: "route" | "path";
+    }
+
+    type To = string | Partial<Path>;
+
+    interface Path {
+        pathname: string;
+        search: string;
+        hash: string;
+    }
+
     const [recipeQuery, setRecipeQuery] = useState("")
     const [selectSort, setSelectSort] = useState("")
     // @ts-ignore
@@ -35,12 +60,17 @@ export const Recipes = () => {
         <Box sx={{
             bgcolor: "#f6f6f6",
             height: "82.5vh",
-            width: "79.2vw",
         }}>
-            <Box width="100%" display="flex">
+            <Box sx={{
+                maxWidth: "95rem",
+                minWidth: "70rem",
+            }} display="flex">
                 <SideBar/>
                 <Box ml="100px">
-                    <Box width="1150px" display="flex" sx={{justifyContent: "space-around",}}>
+                    <Box display="flex" sx={{
+                        justifyContent: "space-around", maxWidth: "95rem",
+                        minWidth: "70rem",
+                    }}>
                         <OutlinedInput
                             onChange={handleRecipeSearch}
                             sx={{
@@ -49,12 +79,15 @@ export const Recipes = () => {
                                 marginTop: "53px",
                                 height: "45px",
                                 ml: "-15px",
+                                "@media (max-width: 1450px)": {
+                                    width: "440px",
+                                },
                             }}
                             placeholder="Search for recipes and more..."
                             startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
                         />
 
-                        <FormControl sx={{width: "150px", marginTop: "53px"}}>
+                        <FormControl sx={{minWidth: "150px", marginTop: "53px"}}>
                             <InputLabel id="sort-recipes-label" sx={{
                                 marginTop: "-5px",
                                 transition: "margin-top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
@@ -78,6 +111,7 @@ export const Recipes = () => {
                     </Box>
                     <Box ml="100px" height="500px" mt="50px" display="flex" flexWrap="wrap">
                         {filteredRecipes.map((recipe: {
+                            id: number;
                             image: string;
                             name: string;
                             description: string;
@@ -86,23 +120,32 @@ export const Recipes = () => {
                             if (index % 3 === 0) {
                                 return (
                                     <Box key={index} display="flex">
-                                        <RecipeCard image={recipe.image} name={recipe.name}
-                                                    description={recipe.description}
-                                                    tags={recipe.tags}/>
+                                        <Link style={{textDecoration: "none"}} to={`${recipe.id}`}>
+                                            <RecipeCard image={recipe.image} name={recipe.name}
+                                                        description={recipe.description}
+                                                        tags={recipe.tags}/>
+                                        </Link>
                                         <Box display="flex" flexDirection="column">
                                             {filteredRecipes[index + 1] && (
-                                                <RecipeCardSM image={filteredRecipes[index + 1].image}
-                                                              name={filteredRecipes[index + 1].name}
-                                                              tags={filteredRecipes[index + 1].tags}/>
+                                                <Link to={`/${filteredRecipes[index + 1].id}`}>
+                                                    <RecipeCardSM image={filteredRecipes[index + 1].image}
+                                                                  name={filteredRecipes[index + 1].name}
+                                                                  tags={filteredRecipes[index + 1].tags}/>
+                                                </Link>
                                             )}
                                             {filteredRecipes[index + 2] && (
-                                                <RecipeCardSM image={filteredRecipes[index + 2].image}
-                                                              name={filteredRecipes[index + 2].name}
-                                                              tags={filteredRecipes[index + 2].tags}/>
+                                                <Link to={`/${filteredRecipes[index + 2].id}`}>
+                                                    <RecipeCardSM image={filteredRecipes[index + 2].image}
+                                                                  name={filteredRecipes[index + 2].name}
+                                                                  tags={filteredRecipes[index + 2].tags}/>
+                                                </Link>
                                             )}
                                         </Box>
+
                                     </Box>
-                                );
+
+                                )
+                                    ;
                             } else {
                                 return null;
                             }

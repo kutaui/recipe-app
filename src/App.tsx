@@ -1,25 +1,25 @@
 import './App.css'
-import {Main} from "./components/Main";
-import {Hero} from "./components/Hero";
-import {Header} from "./components/Header";
-import {SideBar} from "./components/SideBar";
-import {Recipes} from "./components/Recipes";
-import {Box} from "@mui/system";
+import {Main} from "./Main/Main";
+
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {RootLayout} from "./pages/RootLayout";
+import {RecipeDetails} from "./pages/RecipeDetails";
 import {RecipesContextProvider} from "./context/RecipesContext";
 
 function App() {
-    return <Main>
-        <Box>
-            <Header/>
-            <Hero/>
-        </Box>
-        <RecipesContextProvider>
-            <Box>
-                <Recipes/>
-            </Box>
-        </RecipesContextProvider>
-    </Main>
+    const router = createBrowserRouter([{
+        path: '/',
+        element: <RootLayout/>,
+        children: [
+            {path: '/', element: <Main/>},
+            {path: '/:id', element: <RecipeDetails/>},
+        ]
+    }])
 
+
+    return <RecipesContextProvider>
+    <RouterProvider router={router}/>
+    </RecipesContextProvider>
 }
 
 export default App
