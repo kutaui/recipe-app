@@ -1,5 +1,14 @@
 import {Box} from "@mui/system";
-import {FormControl, InputLabel, MenuItem, OutlinedInput, Pagination, Select} from "@mui/material";
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Pagination,
+    Select,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {InputAdornment} from "@mui/material";
 import {RecipeCard} from "./RecipeCard";
@@ -11,6 +20,8 @@ import {Link} from "react-router-dom";
 
 
 export const Recipes = () => {
+    const theme = useTheme()
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
     // @ts-ignore
     function Link(props: LinkProps): React.ReactElement;
 
@@ -59,17 +70,28 @@ export const Recipes = () => {
     return <>
         <Box sx={{
             bgcolor: "#f6f6f6",
-            height: "82.5vh",
+            height: "100vh",
+            maxWidth: "95rem",
+            minWidth: "70rem",
         }}>
             <Box sx={{
-                maxWidth: "95rem",
-                minWidth: "70rem",
+                width: "100%",
+
+
             }} display="flex">
                 <SideBar/>
-                <Box ml="100px">
+                <Box sx={{
+                    width: "100%",
+                    "@media (max-width: 1450px)": {
+                        ml:"200px",
+                    },
+                }}>
                     <Box display="flex" sx={{
                         justifyContent: "space-around", maxWidth: "95rem",
                         minWidth: "70rem",
+                            "@media (max-width: 1200px)": {
+                            justifyContent: "space-evenly",
+                            }
                     }}>
                         <OutlinedInput
                             onChange={handleRecipeSearch}
@@ -79,9 +101,9 @@ export const Recipes = () => {
                                 marginTop: "53px",
                                 height: "45px",
                                 ml: "-15px",
-                                "@media (max-width: 1450px)": {
-                                    width: "440px",
-                                },
+                                "@media (max-width: 1200px)": {
+                                    width: "420px",
+                                    ml:"-100px",                                },
                             }}
                             placeholder="Search for recipes and more..."
                             startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
@@ -109,7 +131,10 @@ export const Recipes = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                    <Box ml="100px" height="500px" mt="50px" display="flex" flexWrap="wrap">
+                    <Box ml="100px" height="500px" sx={{
+                        maxWidth: "95rem",
+                        minWidth: "70rem",
+                    }} mt="50px" display="flex" flexWrap="wrap">
                         {filteredRecipes.map((recipe: {
                             id: number;
                             image: string;
@@ -119,22 +144,22 @@ export const Recipes = () => {
                         }, index: number) => {
                             if (index % 3 === 0) {
                                 return (
-                                    <Box key={index} display="flex">
+                                    <Box  key={index} display="flex">
                                         <Link style={{textDecoration: "none"}} to={`${recipe.id}`}>
                                             <RecipeCard image={recipe.image} name={recipe.name}
                                                         description={recipe.description}
                                                         tags={recipe.tags}/>
                                         </Link>
-                                        <Box display="flex" flexDirection="column">
+                                        <Box   display="flex" flexDirection="column">
                                             {filteredRecipes[index + 1] && (
-                                                <Link to={`/${filteredRecipes[index + 1].id}`}>
+                                                <Link style={{textDecoration: "none"}}  to={`/${filteredRecipes[index + 1].id}`}>
                                                     <RecipeCardSM image={filteredRecipes[index + 1].image}
                                                                   name={filteredRecipes[index + 1].name}
                                                                   tags={filteredRecipes[index + 1].tags}/>
                                                 </Link>
                                             )}
                                             {filteredRecipes[index + 2] && (
-                                                <Link to={`/${filteredRecipes[index + 2].id}`}>
+                                                <Link style={{textDecoration: "none"}}  to={`/${filteredRecipes[index + 2].id}`}>
                                                     <RecipeCardSM image={filteredRecipes[index + 2].image}
                                                                   name={filteredRecipes[index + 2].name}
                                                                   tags={filteredRecipes[index + 2].tags}/>
