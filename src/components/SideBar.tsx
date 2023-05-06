@@ -1,5 +1,5 @@
 import {Box, styled} from "@mui/system";
-import {Button, Typography} from "@mui/material";
+import {Button, Typography, useMediaQuery, useTheme} from "@mui/material";
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza';
 import EggAltIcon from '@mui/icons-material/EggAlt';
 import CakeIcon from '@mui/icons-material/Cake';
@@ -30,6 +30,8 @@ const categories = [
 
 
 export const SideBar = () => {
+    const theme = useTheme()
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
     return <>
         <Box sx={{
             bgcolor: "#f6f6f6",
@@ -44,8 +46,8 @@ export const SideBar = () => {
                 position: "absolute",
                 top:"115px",
                 left:"130px",
-                "@media (max-width: 1450px)": {
-                    ml: "-50px",
+                "@media (max-width: 1500px)": {
+                    ml: "-60px",
                 },
             }}>
                 <Typography variant="h2" marginLeft="-5px" marginTop="-80px" marginBottom="30px"
@@ -60,7 +62,9 @@ export const SideBar = () => {
                         justifyContent: "start",
                         marginBottom: "20px",
                         borderColor: "#929292",
-                        "&:hover": {borderColor: "#000000"}
+                        "&:hover": {borderColor: "#000000"},
+                        "@media (max-width: 1200px)": {
+                            width: "155px",},
                     }}
                                    variant="outlined"> {category.icon} <span
                         style={{

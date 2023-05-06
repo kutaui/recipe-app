@@ -1,5 +1,14 @@
 import {Box} from "@mui/system";
-import {FormControl, InputLabel, MenuItem, OutlinedInput, Pagination, Select} from "@mui/material";
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Pagination,
+    Select,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {InputAdornment} from "@mui/material";
 import {RecipeCard} from "./RecipeCard";
@@ -11,6 +20,14 @@ import {Link} from "react-router-dom";
 
 
 export const Recipes = () => {
+    // @ts-ignore
+    const {recipes} = useAPI()
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(3)
+    const lastPostIndex: number = currentPage * postsPerPage
+    const firstPostIndex: number = lastPostIndex - postsPerPage
+    const currentRecipes = recipes.slice(firstPostIndex, lastPostIndex)
+
     // @ts-ignore
     function Link(props: LinkProps): React.ReactElement;
 
@@ -35,10 +52,15 @@ export const Recipes = () => {
         hash: string;
     }
 
+    //pagination logic
+    let pages = []
+    for (let i = 1; i <= Math.ceil(recipes.length / postsPerPage); i++) {
+        pages.push(i)
+    }
+
     const [recipeQuery, setRecipeQuery] = useState("")
     const [selectSort, setSelectSort] = useState("")
-    // @ts-ignore
-    const {recipes} = useAPI()
+
     const handleRecipeSearch = (e: { target: { value: string; }; }) => {
         setRecipeQuery(e.target.value)
     }
@@ -46,7 +68,7 @@ export const Recipes = () => {
         setSelectSort(e.target.value)
     }
 
-    let filteredRecipes = recipes.filter((recipe: {
+    let filteredRecipes = currentRecipes.filter((recipe: {
         name: string;
     }) => recipe.name.toLowerCase().includes(recipeQuery.toLowerCase()))
 
@@ -59,17 +81,28 @@ export const Recipes = () => {
     return <>
         <Box sx={{
             bgcolor: "#f6f6f6",
-            height: "82.5vh",
+            height: "100vh",
+            maxWidth: "95rem",
+            minWidth: "70rem",
         }}>
             <Box sx={{
-                maxWidth: "95rem",
-                minWidth: "70rem",
+                width: "100%",
+
+
             }} display="flex">
                 <SideBar/>
-                <Box ml="100px">
+                <Box sx={{
+                    width: "100%",
+                    "@media (max-width: 1450px)": {
+                        ml: "200px",
+                    },
+                }}>
                     <Box display="flex" sx={{
                         justifyContent: "space-around", maxWidth: "95rem",
                         minWidth: "70rem",
+                        "@media (max-width: 1200px)": {
+                            justifyContent: "space-evenly",
+                        }
                     }}>
                         <OutlinedInput
                             onChange={handleRecipeSearch}
@@ -79,8 +112,9 @@ export const Recipes = () => {
                                 marginTop: "53px",
                                 height: "45px",
                                 ml: "-15px",
-                                "@media (max-width: 1450px)": {
-                                    width: "440px",
+                                "@media (max-width: 1200px)": {
+                                    width: "420px",
+                                    ml: "-100px",
                                 },
                             }}
                             placeholder="Search for recipes and more..."
@@ -109,7 +143,10 @@ export const Recipes = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                    <Box ml="100px" height="500px" mt="50px" display="flex" flexWrap="wrap">
+                    <Box ml="100px" height="500px" sx={{
+                        maxWidth: "95rem",
+                        minWidth: "70rem",
+                    }} mt="50px" display="flex" flexWrap="wrap">
                         {filteredRecipes.map((recipe: {
                             id: number;
                             image: string;
@@ -120,21 +157,23 @@ export const Recipes = () => {
                             if (index % 3 === 0) {
                                 return (
                                     <Box key={index} display="flex">
-                                        <Link style={{textDecoration: "none"}} to={`${recipe.id}`}>
+                                        <Link style={{textDecoration: "none", height: "250px"}} to={`${recipe.id}`}>
                                             <RecipeCard image={recipe.image} name={recipe.name}
                                                         description={recipe.description}
                                                         tags={recipe.tags}/>
                                         </Link>
                                         <Box display="flex" flexDirection="column">
                                             {filteredRecipes[index + 1] && (
-                                                <Link to={`/${filteredRecipes[index + 1].id}`}>
+                                                <Link style={{textDecoration: "none"}}
+                                                      to={`/${filteredRecipes[index + 1].id}`}>
                                                     <RecipeCardSM image={filteredRecipes[index + 1].image}
                                                                   name={filteredRecipes[index + 1].name}
                                                                   tags={filteredRecipes[index + 1].tags}/>
                                                 </Link>
                                             )}
                                             {filteredRecipes[index + 2] && (
-                                                <Link to={`/${filteredRecipes[index + 2].id}`}>
+                                                <Link style={{textDecoration: "none"}}
+                                                      to={`/${filteredRecipes[index + 2].id}`}>
                                                     <RecipeCardSM image={filteredRecipes[index + 2].image}
                                                                   name={filteredRecipes[index + 2].name}
                                                                   tags={filteredRecipes[index + 2].tags}/>
@@ -154,7 +193,7 @@ export const Recipes = () => {
                 </Box>
             </Box>
             <Box sx={{mr: "auto", ml: "auto", width: "160px", mt: "-30px", pb: "30px"}}>
-                <Pagination count={2}/>
+                <Pagination count={pages.length} onChange={(event, page) => setCurrentPage(page)}/>
             </Box>
         </Box>
     </>
