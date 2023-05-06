@@ -20,8 +20,14 @@ import {Link} from "react-router-dom";
 
 
 export const Recipes = () => {
-    const theme = useTheme()
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+    // @ts-ignore
+    const {recipes} = useAPI()
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(3)
+    const lastPostIndex: number = currentPage * postsPerPage
+    const firstPostIndex: number = lastPostIndex - postsPerPage
+    const currentRecipes = recipes.slice(firstPostIndex, lastPostIndex)
+
     // @ts-ignore
     function Link(props: LinkProps): React.ReactElement;
 
@@ -46,10 +52,15 @@ export const Recipes = () => {
         hash: string;
     }
 
+    //pagination logic
+    let pages = []
+    for (let i = 1; i <= Math.ceil(recipes.length / postsPerPage); i++) {
+        pages.push(i)
+    }
+
     const [recipeQuery, setRecipeQuery] = useState("")
     const [selectSort, setSelectSort] = useState("")
-    // @ts-ignore
-    const {recipes} = useAPI()
+
     const handleRecipeSearch = (e: { target: { value: string; }; }) => {
         setRecipeQuery(e.target.value)
     }
@@ -57,7 +68,7 @@ export const Recipes = () => {
         setSelectSort(e.target.value)
     }
 
-    let filteredRecipes = recipes.filter((recipe: {
+    let filteredRecipes = currentRecipes.filter((recipe: {
         name: string;
     }) => recipe.name.toLowerCase().includes(recipeQuery.toLowerCase()))
 
@@ -83,15 +94,15 @@ export const Recipes = () => {
                 <Box sx={{
                     width: "100%",
                     "@media (max-width: 1450px)": {
-                        ml:"200px",
+                        ml: "200px",
                     },
                 }}>
                     <Box display="flex" sx={{
                         justifyContent: "space-around", maxWidth: "95rem",
                         minWidth: "70rem",
-                            "@media (max-width: 1200px)": {
+                        "@media (max-width: 1200px)": {
                             justifyContent: "space-evenly",
-                            }
+                        }
                     }}>
                         <OutlinedInput
                             onChange={handleRecipeSearch}
@@ -103,7 +114,8 @@ export const Recipes = () => {
                                 ml: "-15px",
                                 "@media (max-width: 1200px)": {
                                     width: "420px",
-                                    ml:"-100px",                                },
+                                    ml: "-100px",
+                                },
                             }}
                             placeholder="Search for recipes and more..."
                             startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
@@ -144,22 +156,24 @@ export const Recipes = () => {
                         }, index: number) => {
                             if (index % 3 === 0) {
                                 return (
-                                    <Box  key={index} display="flex">
-                                        <Link style={{textDecoration: "none"}} to={`${recipe.id}`}>
+                                    <Box key={index} display="flex">
+                                        <Link style={{textDecoration: "none", height: "250px"}} to={`${recipe.id}`}>
                                             <RecipeCard image={recipe.image} name={recipe.name}
                                                         description={recipe.description}
                                                         tags={recipe.tags}/>
                                         </Link>
-                                        <Box   display="flex" flexDirection="column">
+                                        <Box display="flex" flexDirection="column">
                                             {filteredRecipes[index + 1] && (
-                                                <Link style={{textDecoration: "none"}}  to={`/${filteredRecipes[index + 1].id}`}>
+                                                <Link style={{textDecoration: "none"}}
+                                                      to={`/${filteredRecipes[index + 1].id}`}>
                                                     <RecipeCardSM image={filteredRecipes[index + 1].image}
                                                                   name={filteredRecipes[index + 1].name}
                                                                   tags={filteredRecipes[index + 1].tags}/>
                                                 </Link>
                                             )}
                                             {filteredRecipes[index + 2] && (
-                                                <Link style={{textDecoration: "none"}}  to={`/${filteredRecipes[index + 2].id}`}>
+                                                <Link style={{textDecoration: "none"}}
+                                                      to={`/${filteredRecipes[index + 2].id}`}>
                                                     <RecipeCardSM image={filteredRecipes[index + 2].image}
                                                                   name={filteredRecipes[index + 2].name}
                                                                   tags={filteredRecipes[index + 2].tags}/>
@@ -179,7 +193,7 @@ export const Recipes = () => {
                 </Box>
             </Box>
             <Box sx={{mr: "auto", ml: "auto", width: "160px", mt: "-30px", pb: "30px"}}>
-                <Pagination count={2}/>
+                <Pagination count={pages.length} onChange={(event, page) => setCurrentPage(page)}/>
             </Box>
         </Box>
     </>
